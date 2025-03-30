@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bcunfwxci0bdp"]
+
+[ext_resource type="Script" uid="uid://blnr4g0ktjy32" path="res://addons/physics_character_body/PhysicsCharacterBody.cs" id="1_367c4"]
+[ext_resource type="Script" uid="uid://b2lrmxoo73uu5" path="res://addons/physics_character_body/CharacterBodyController.cs" id="2_miip5"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_miip5"]
+
+[node name="PcbFps" type="CharacterBody3D"]
+script = ExtResource("1_367c4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_miip5")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, -0.25)
+
+[node name="CharacterBodyController" type="Node" parent="."]
+script = ExtResource("2_miip5")
