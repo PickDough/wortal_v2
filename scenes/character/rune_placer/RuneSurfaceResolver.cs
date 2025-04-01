@@ -10,6 +10,7 @@ public static class RuneSurfaceResolver
         return raycastResult.Collider switch
         {
             CsgBox3D csgBox => CsgBoxType(raycastResult, csgBox),
+            StaticBody3D staticBody => StaticBodyType(raycastResult, staticBody),
             _ => UnsupportedType(raycastResult),
         };
     }
@@ -52,9 +53,34 @@ public static class RuneSurfaceResolver
             else
                 local.Y = Mathf.Floor(local.Y) + 1;
         }
-        
-        
+
+
         return csgBox.ToGlobal(local);
+    }
+
+    private static Vector3 StaticBodyType(RaycastResult raycastResult, StaticBody3D staticBody)
+    {
+        var local = staticBody.ToLocal(raycastResult.Point);
+        var beforeLocal = local;
+        GD.Print(raycastResult.Normal);
+
+        if (raycastResult.Normal.X != 0)
+        {
+            local.Y = (int)local.Y + 0.5f  * Mathf.Sign(local.Y);
+            local.Z = (int)local.Z + 0.5f * Mathf.Sign(local.Z);
+        } 
+        else if (raycastResult.Normal.Y != 0)
+        {
+            local.X = (int)(local.X) + 0.5f * Mathf.Sign(local.X);
+            local.Z = (int)(local.Z) + 0.5f * Mathf.Sign(local.Z);
+        }
+        else if (raycastResult.Normal.Z != 0)
+        {
+            local.X =(int)(local.X) + 0.5f * Mathf.Sign(local.X);
+            local.Y = (int)(local.Y) + 0.5f * Mathf.Sign(local.Y);
+        }
+        
+        return staticBody.ToGlobal(local);
     }
 
     private static Vector3 UnsupportedType(RaycastResult raycastResult)

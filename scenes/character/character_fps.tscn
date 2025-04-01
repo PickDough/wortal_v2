@@ -1,11 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://7qf4ip3ahm1y"]
+[gd_scene load_steps=5 format=3 uid="uid://7qf4ip3ahm1y"]
 
 [ext_resource type="PackedScene" uid="uid://bcunfwxci0bdp" path="res://addons/physics_character_body/pcb_fps.tscn" id="1_hx7x4"]
 [ext_resource type="Script" uid="uid://c1s8sww5cgveg" path="res://scenes/character/rune_placer/RunePlacer.cs" id="2_wmqfj"]
 [ext_resource type="PackedScene" uid="uid://rlxiutimjw43" path="res://scenes/runes/rune.tscn" id="3_201rd"]
+[ext_resource type="Script" uid="uid://5078040sqpjf" path="res://scenes/character/item_pickup/ItemPickup.cs" id="4_201rd"]
 
 [node name="CharacterFps" instance=ExtResource("1_hx7x4")]
 
-[node name="RunePlacer" type="Node" parent="." index="3"]
+[node name="Pickup" type="Node3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.63536, -2)
+
+[node name="ItemPickup" type="Node" parent="Pickup" index="0"]
+script = ExtResource("4_201rd")
+
+[node name="RunePlacer" type="Node" parent="." index="4"]
 script = ExtResource("2_wmqfj")
 sceneToPlace = ExtResource("3_201rd")

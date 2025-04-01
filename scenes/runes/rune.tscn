@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://rlxiutimjw43"]
+[gd_scene load_steps=3 format=3 uid="uid://rlxiutimjw43"]
+
+[ext_resource type="Texture2D" uid="uid://b31v28leq28tf" path="res://assests/textures/runes/circle_PNG63.png" id="1_aqqoa"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qlqta"]
 size = Vector3(1, 0.1, 1)
@@ -9,8 +11,6 @@ size = Vector3(1, 0.1, 1)
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 shape = SubResource("BoxShape3D_qlqta")
 
-[node name="Label3D" type="Label3D" parent="."]
-transform = Transform3D(-1, 9.31764e-22, -8.74228e-08, 0, 1, 1.06581e-14, 8.74228e-08, 1.06581e-14, -1, 0, 0, -0.05)
-texture_filter = 0
-text = "Rune"
-font_size = 56
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, -0.05)
+texture = ExtResource("1_aqqoa")

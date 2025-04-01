@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using wortal_v2.addons.gd_inject.attributes;
 using wortal_v2.addons.physics_character_body;
@@ -6,8 +7,11 @@ namespace wortal_v2.scenes.character.rune_placer;
 
 public partial class RunePlacer : Node
 {
+    public const uint CollisionLayer = 4;
+    
     [Export] private PackedScene? sceneToPlace;
     [FromOwner] private PhysicsCharacterBody characterBody = new();
+    
     private Node3D? rune;
 
     public override void _Process(double delta)
@@ -15,12 +19,15 @@ public partial class RunePlacer : Node
         if (rune == null)
             return;
         
-        var raycastResult = characterBody.RaycastFromCamera(10, 2);
+        var raycastResult = characterBody.RaycastFromCamera(10, CollisionLayer);
         if (raycastResult == null)
             return;
         
         rune.GlobalPosition = RuneSurfaceResolver.ResolveSurface(raycastResult);
-        rune.LookAt(rune.GlobalPosition + raycastResult.Normal);
+        if (raycastResult.Normal != Vector3.Up)
+            rune.LookAt(rune.GlobalPosition + raycastResult.Normal);
+        else
+            rune.RotationDegrees = new Vector3(90f, 0f, 0f);
     }
 
     public override void _UnhandledInput(InputEvent @event)

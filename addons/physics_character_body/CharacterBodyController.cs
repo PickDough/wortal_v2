@@ -8,6 +8,11 @@ public partial class CharacterBodyController : Node
 	[FromOwner] private PhysicsCharacterBody characterBody = new ();
 	[FromOwner] private Camera3D camera = new ();
 
+	public override void _Ready()
+	{
+		Input.SetMouseMode(Input.MouseModeEnum.Captured);
+	}
+
 	public override void _PhysicsProcess(double delta)
 	{
 		var velocity = characterBody.Velocity;
@@ -47,6 +52,15 @@ public partial class CharacterBodyController : Node
 			characterBody.RotationDegrees += new Vector3(0f, -mouseMotion.Relative.X * characterBody.MouseSensitivity, 0f);
 			camera.RotationDegrees = new Vector3(Mathf.Clamp(camera.RotationDegrees.X  - mouseMotion.Relative.Y * characterBody.MouseSensitivity, -90f, 90f), 0, 0);
 			
+		}
+		if (@event.IsActionPressed("ui_cancel"))
+		{
+			Input.SetMouseMode(Input.MouseModeEnum.Visible);
+			Engine.TimeScale = 0;
+		} else if (Input.GetMouseMode() == Input.MouseModeEnum.Visible && @event is InputEventMouseButton { Pressed: true })
+		{
+			Input.SetMouseMode(Input.MouseModeEnum.Captured);
+			Engine.TimeScale = 1;
 		}
 	}
 }

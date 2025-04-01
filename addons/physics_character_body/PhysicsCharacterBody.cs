@@ -7,10 +7,18 @@ namespace wortal_v2.addons.physics_character_body;
 
 public partial class PhysicsCharacterBody : CharacterBody3D
 {
+    [Export] public float PushForce = 20.0f;
+    [Export] public float Mass = 80.0f;
+
     [Export] public float Speed = 5.0f;
     [Export] public float JumpVelocity = 4.5f;
-    [Export(PropertyHint.Range, "0.01,1,0.01")] public float MouseSensitivity = 0.5f;
+
+    [Export(PropertyHint.Range, "0.01,1,0.01")]
+    public float MouseSensitivity = 0.5f;
+
     [FromOwner(FromSelf = true)] private Camera3D camera;
+    
+    public Vector3 Forward => -GlobalTransform.Basis.Z;
 
     public override void _PhysicsProcess(double delta)
     {
@@ -21,6 +29,21 @@ public partial class PhysicsCharacterBody : CharacterBody3D
             Velocity += GetGravity() * (float)delta;
         }
 
+        for (var i = 0; i < GetSlideCollisionCount(); i++)
+        {
+            var collision = GetSlideCollision(i);
+            if (collision.GetCollider() is RigidBody3D area)
+            {
+                var pushDir = Velocity.Normalized();
+                var velocityDiff = Velocity.Dot(pushDir) - area.LinearVelocity.Dot(pushDir);
+                velocityDiff = Mathf.Max(0f, velocityDiff);
+                var massRatio = Mathf.Min(1f, Mass / area.Mass);
+                pushDir.Y = 0;
+                
+                area.ApplyImpulse(pushDir * velocityDiff * PushForce * massRatio,
+                    collision.GetPosition() - area.GlobalPosition);
+            }
+        }
         MoveAndSlide();
     }
 
@@ -40,8 +63,8 @@ public partial class PhysicsCharacterBody : CharacterBody3D
             CollideWithBodies = bodies,
         });
 
-        return result.Count > 0 
-            ? new RaycastResult((GodotObject)result["collider"], (Vector3)result["normal"], (Vector3)result["position"]) 
+        return result.Count > 0
+            ? new RaycastResult((GodotObject)result["collider"], (Vector3)result["normal"], (Vector3)result["position"])
             : null;
     }
 }
