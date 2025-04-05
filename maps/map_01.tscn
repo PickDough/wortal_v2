@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://wvieb05ggn14"]
 
 [ext_resource type="PackedScene" uid="uid://7qf4ip3ahm1y" path="res://scenes/character/character_fps.tscn" id="2_mcea3"]
-[ext_resource type="PackedScene" uid="uid://bqk5wwkl8tqic" path="res://maps/map_01.blend" id="2_pwgiu"]
+[ext_resource type="PackedScene" uid="uid://b7utinrvwc3sm" path="res://maps/blender_map_01.tscn" id="3_buuqm"]
 [ext_resource type="PackedScene" uid="uid://dpypu5uka55wp" path="res://scenes/items/box/box_item.tscn" id="3_pwgiu"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mcea3"]
@@ -30,11 +30,11 @@ environment = SubResource("Environment_buuqm")
 [node name="CharacterFps" parent="." instance=ExtResource("2_mcea3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, 3)
 platform_floor_layers = 4294967279
-PushForce = 10.0
-Mass = 45.0
 MouseSensitivity = 0.1
-
-[node name="BlenderMap01" parent="." instance=ExtResource("2_pwgiu")]
+PushForce = 4.0
+Mass = 45.0
 
 [node name="BoxItem" parent="." instance=ExtResource("3_pwgiu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 3, -1.5)
+
+[node name="BlenderMap01" parent="." instance=ExtResource("3_buuqm")]

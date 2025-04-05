@@ -1,49 +1,88 @@
 using System;
 using Godot;
 using wortal_v2.addons.gd_inject.attributes;
+using wortal_v2.addons.node_selector;
 using wortal_v2.addons.physics_character_body;
+using wortal_v2.addons.utils;
+using wortal_v2.scenes.character.rune_selector;
+using wortal_v2.scenes.runes;
 
 namespace wortal_v2.scenes.character.rune_placer;
 
 public partial class RunePlacer : Node
 {
-    public const uint CollisionLayer = 4;
-    
-    [Export] private PackedScene? sceneToPlace;
-    [FromOwner] private PhysicsCharacterBody characterBody = new();
-    
-    private Node3D? rune;
+    [Export] private float distance = 6f;
+
+    [FromOwner] private PhysicsCharacterBody characterBody = null!;
+    [FromOwner] private RuneSelector runeSelector = null!;
+
+    private Rune? rune;
 
     public override void _Process(double delta)
     {
         if (rune == null)
             return;
-        
-        var raycastResult = characterBody.RaycastFromCamera(10, CollisionLayer);
-        if (raycastResult == null)
+
+        var raycastResult = characterBody.RaycastFromCamera(distance,
+            CollisionLayer.World + CollisionLayer.RuneSurface + CollisionLayer.Item);
+        if (raycastResult == null || !raycastResult.Collider.GetCollisionLayerValue(CollisionLayer.RuneSurfaceLayer))
+        {
+            rune.State = new RuneState.Invalid();
             return;
-        
+        }
+
         rune.GlobalPosition = RuneSurfaceResolver.ResolveSurface(raycastResult);
-        if (raycastResult.Normal != Vector3.Up)
+        if (Math.Abs(raycastResult.Normal.Y - 1f) > .001)
             rune.LookAt(rune.GlobalPosition + raycastResult.Normal);
         else
             rune.RotationDegrees = new Vector3(90f, 0f, 0f);
+
+        rune.Sprite.GlobalPosition = rune.GlobalPosition;
+        if (RuneSurfaceResolver.IsOverlapping(raycastResult, rune!))
+        {
+            rune.State = new RuneState.Overlapping();
+            rune.Sprite.GlobalPosition = rune.GlobalPosition + raycastResult.Normal * 0.01f;
+            return;
+        }
+
+        rune.State = new RuneState.NotPlaced();
     }
 
     public override void _UnhandledInput(InputEvent @event)
     {
         if (@event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Right })
         {
-            if (rune == null && sceneToPlace != null)
+            if (rune == null)
             {
-                rune = sceneToPlace.Instantiate<Node3D>();
+                rune = runeSelector.CurrentRune.Instantiate<Rune>();
                 AddChild(rune);
             }
         }
+
         if (@event is InputEventMouseButton mouseButtonEvent && mouseButtonEvent.IsReleased() && rune != null)
+        {
+            PlaceRune();
+            rune.QueueFree();
+            rune = null;
+        }
+
+        if (@event.IsActionPressed("action_cancel") && rune != null)
         {
             rune.QueueFree();
             rune = null;
         }
+    }
+
+    private void PlaceRune()
+    {
+        var raycastResult = characterBody.RaycastFromCamera(distance,
+            CollisionLayer.World + CollisionLayer.RuneSurface + CollisionLayer.Item);
+        if (raycastResult == null || RuneSurfaceResolver.IsOverlapping(raycastResult, rune!))
+            return;
+
+        var placedRune = rune!.Duplicate() as Rune;
+        raycastResult.Collider.AddChild(placedRune);
+        placedRune!.State = new RuneState.Placed();
+        placedRune.GlobalPosition = rune.GlobalPosition;
     }
 }

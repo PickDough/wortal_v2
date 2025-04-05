@@ -15,7 +15,7 @@ public partial class CharacterBodyController : Node
 
 	public override void _PhysicsProcess(double delta)
 	{
-		var velocity = characterBody.Velocity;
+		var velocity = Vector3.Zero;
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
@@ -25,11 +25,6 @@ public partial class CharacterBodyController : Node
 		{
 			velocity.X = direction.X * characterBody.Speed;
 			velocity.Z = direction.Z * characterBody.Speed;
-		}
-		else
-		{
-			velocity.X = Mathf.MoveToward(characterBody.Velocity.X, 0, characterBody.Speed);
-			velocity.Z = Mathf.MoveToward(characterBody.Velocity.Z, 0, characterBody.Speed);
 		}
 
 		// Handle Jump.
@@ -47,7 +42,7 @@ public partial class CharacterBodyController : Node
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
-		if (@event is InputEventMouseMotion mouseMotion)
+		if (@event is InputEventMouseMotion mouseMotion && Engine.TimeScale > 0)
 		{
 			characterBody.RotationDegrees += new Vector3(0f, -mouseMotion.Relative.X * characterBody.MouseSensitivity, 0f);
 			camera.RotationDegrees = new Vector3(Mathf.Clamp(camera.RotationDegrees.X  - mouseMotion.Relative.Y * characterBody.MouseSensitivity, -90f, 90f), 0, 0);

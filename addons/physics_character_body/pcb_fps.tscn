@@ -18,4 +18,5 @@ shape = SubResource("CapsuleShape3D_miip5")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, -0.25)
 
 [node name="CharacterBodyController" type="Node" parent="."]
+process_physics_priority = 1
 script = ExtResource("2_miip5")

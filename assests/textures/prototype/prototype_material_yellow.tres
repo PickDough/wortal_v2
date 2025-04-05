@@ -6,7 +6,7 @@
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_hofwr")
-shader_parameter/world_uv = true
+shader_parameter/world_uv = false
 shader_parameter/object_uv = false
 shader_parameter/object_uv_scale = Vector2(1, 1)
 shader_parameter/preset_color = 0

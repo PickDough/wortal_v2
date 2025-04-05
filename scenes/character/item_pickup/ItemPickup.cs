@@ -8,11 +8,12 @@ using wortal_v2.scenes.items;
 
 public partial class ItemPickup : Node
 {
-    private const uint CollisionLayer = 16;
-
-    [FromOwner] private PhysicsCharacterBody characterBody = new();
+    [Export] private float throwForce = 150f;
+    [FromOwner] private PhysicsCharacterBody characterBody = null!;
 
     private Item? item;
+    private uint itemCollisionLayer;
+   
 
     public override void _UnhandledInput(InputEvent @event)
     {
@@ -20,7 +21,7 @@ public partial class ItemPickup : Node
         {
             if (item == null)
             {
-                var raycastResult = characterBody.RaycastFromCamera(3, CollisionLayer);
+                var raycastResult = characterBody.RaycastFromCamera(3, CollisionLayer.Item);
 
                 if (raycastResult != null)
                 {
@@ -38,6 +39,7 @@ public partial class ItemPickup : Node
     {
         item = (raycastResult.Collider as Item)!;
         item.Freeze = true;
+        itemCollisionLayer = item.CollisionLayer;
         item.CollisionLayer = 0;
 
         var mesh = item.MeshInstance;
@@ -52,7 +54,7 @@ public partial class ItemPickup : Node
         var spaceState = GetParent<Node3D>().GetWorld3D().GetDirectSpaceState();
         var query = new PhysicsShapeQueryParameters3D()
         {
-            CollisionMask = 1 + CollisionLayer,
+            CollisionMask = CollisionLayer.World + CollisionLayer.Item,
             Transform = item!.MeshInstance.GlobalTransform,
             Shape = item.CollisionShape!.Shape,
             CollideWithBodies = true,
@@ -67,7 +69,7 @@ public partial class ItemPickup : Node
         var mesh = item.MeshInstance;
         item.GlobalPosition = mesh.GlobalPosition;
         item.GlobalRotation = mesh.GlobalRotation;
-        item.CollisionLayer = CollisionLayer;
+        item.CollisionLayer = itemCollisionLayer;
         item.Freeze = false;
 
         mesh.Reparent(item);
@@ -75,8 +77,8 @@ public partial class ItemPickup : Node
         var forwardMultiplier = dot < .5f
             ? 1f
             : Mathf.Clamp(characterBody.Velocity.Length(), 1.0f, characterBody.Velocity.Length() / 5f + 1f);
-
-        item.ApplyCentralImpulse(characterBody.Forward * 200f * forwardMultiplier);
+        
+        item.ApplyCentralImpulse(characterBody.Forward * throwForce * forwardMultiplier);
 
         item = null;
     }

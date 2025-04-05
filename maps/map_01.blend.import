@@ -44,6 +44,15 @@ _subresources={
 }
 },
 "nodes": {
+"PATH:Cube": {
+"generate/physics": true,
+"physics/shape_type": 1
+},
+"PATH:Cube_001": {
+"generate/physics": true,
+"physics/layer": 5,
+"physics/shape_type": 1
+},
 "PATH:Floor": {
 "generate/physics": true,
 "physics/layer": 5
