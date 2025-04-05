@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://ddqidhh0rxbas"]
+
+[ext_resource type="PackedScene" uid="uid://rlxiutimjw43" path="res://scenes/runes/rune.tscn" id="1_48bwl"]
+[ext_resource type="Shader" uid="uid://dj6k65g4bslhf" path="res://scenes/runes/wind/rune_wind.gdshader" id="2_kqwwp"]
+[ext_resource type="Script" uid="uid://c21pf0apn6mna" path="res://scenes/runes/wind/WindRunePower.cs" id="3_gwk64"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gwk64"]
+shader = ExtResource("2_kqwwp")
+shader_parameter/tangent_velocity = 10.0
+shader_parameter/upward_speed = 20.0
+shader_parameter/base_radius = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kqwwp"]
+cull_mode = 2
+use_particle_trails = true
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_gwk64"]
+material = SubResource("StandardMaterial3D_kqwwp")
+shape = 0
+size = 0.12
+sections = 12
+section_length = 0.1
+section_segments = 8
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gwk64"]
+size = Vector3(1, 1, 6)
+
+[node name="WindRune" instance=ExtResource("1_48bwl")]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+emitting = false
+amount = 12
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.7
+fixed_fps = 60
+trail_enabled = true
+trail_lifetime = 0.2
+process_material = SubResource("ShaderMaterial_gwk64")
+draw_pass_1 = SubResource("RibbonTrailMesh_gwk64")
+
+[node name="RunePower" type="Node" parent="." index="4"]
+script = ExtResource("3_gwk64")
+rigidBodyForce = 350.0
+
+[node name="Area3D" type="Area3D" parent="." index="5"]
+collision_layer = 0
+collision_mask = 18
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.1)
+shape = SubResource("BoxShape3D_gwk64")
