@@ -8,7 +8,7 @@
 shader = ExtResource("2_kqwwp")
 shader_parameter/tangent_velocity = 10.0
 shader_parameter/upward_speed = 20.0
-shader_parameter/base_radius = 1.0
+shader_parameter/base_radius = 1.4
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kqwwp"]
 cull_mode = 2
@@ -23,9 +23,12 @@ section_length = 0.1
 section_segments = 8
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gwk64"]
-size = Vector3(1, 1, 6)
+size = Vector3(2.2, 2.2, 8)
 
 [node name="WindRune" instance=ExtResource("1_48bwl")]
+
+[node name="Sprite3D" parent="." index="2"]
+modulate = Color(0.762254, 0.925172, 0.999403, 1)
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
@@ -43,11 +46,12 @@ draw_pass_1 = SubResource("RibbonTrailMesh_gwk64")
 [node name="RunePower" type="Node" parent="." index="4"]
 script = ExtResource("3_gwk64")
 rigidBodyForce = 350.0
+characterForce = Vector3(30, 18, 30)
 
 [node name="Area3D" type="Area3D" parent="." index="5"]
 collision_layer = 0
 collision_mask = 18
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.1)
 shape = SubResource("BoxShape3D_gwk64")

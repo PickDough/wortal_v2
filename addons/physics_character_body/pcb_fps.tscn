@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://bcunfwxci0bdp"]
+[gd_scene load_steps=5 format=3 uid="uid://bcunfwxci0bdp"]
 
 [ext_resource type="Script" uid="uid://blnr4g0ktjy32" path="res://addons/physics_character_body/PhysicsCharacterBody.cs" id="1_367c4"]
+[ext_resource type="Texture2D" uid="uid://cg7iouthdbyf2" path="res://assests/textures/character/crosshair-icon-2048x2048-5h6w9rqc.png" id="2_1by05"]
 [ext_resource type="Script" uid="uid://b2lrmxoo73uu5" path="res://addons/physics_character_body/CharacterBodyController.cs" id="2_miip5"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_miip5"]
@@ -16,6 +17,21 @@ shape = SubResource("CapsuleShape3D_miip5")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, -0.25)
+
+[node name="TextureRect" type="TextureRect" parent="Camera3D"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 15.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_1by05")
+expand_mode = 1
 
 [node name="CharacterBodyController" type="Node" parent="."]
 process_physics_priority = 1

@@ -1,16 +1,16 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://jdknb1fupnwt"]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://ew4rxwinccu7"]
 
-[ext_resource type="Shader" uid="uid://i18inn7hlym1" path="res://assests/textures/prototype/prototype_texture.gdshader" id="1_xdhfr"]
+[ext_resource type="Shader" uid="uid://i18inn7hlym1" path="res://assests/materials/prototype/prototype_texture.gdshader" id="1_pwvhr"]
 
 [resource]
 resource_local_to_scene = true
 render_priority = 0
-shader = ExtResource("1_xdhfr")
-shader_parameter/world_uv = true
+shader = ExtResource("1_pwvhr")
+shader_parameter/world_uv = false
 shader_parameter/object_uv = false
 shader_parameter/object_uv_scale = Vector2(1, 1)
 shader_parameter/preset_color = 0
-shader_parameter/base_color = Color(0.105003, 0.501514, 0.589686, 1)
+shader_parameter/base_color = Color(0.528811, 0.304278, 0.823028, 1)
 shader_parameter/metalic = 0.25
 shader_parameter/roughness = 0.75
 shader_parameter/grid_scale = 1.0
@@ -20,7 +20,7 @@ shader_parameter/inside_scale = 1.0
 shader_parameter/inside_width = 0.01
 shader_parameter/inside_color = Color(0.8, 0.8, 0.8, 0.8)
 shader_parameter/checkered = true
-shader_parameter/sub_checkered_grid = false
+shader_parameter/sub_checkered_grid = true
 shader_parameter/checkered_color = Color(0.25, 0.25, 0.25, 1)
 shader_parameter/checkered_blend_color = 0.1
 shader_parameter/use_inside_uv = false

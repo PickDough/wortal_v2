@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dria3e7dr1snh"]
+
+[ext_resource type="Script" uid="uid://b3ypwvjnlp4t" path="res://ui/screens/ScreenManager.cs" id="1_jrfnf"]
+[ext_resource type="PackedScene" uid="uid://c5s1ekid73yet" path="res://ui/screens/game_over/game_over_screen.tscn" id="2_jrfnf"]
+
+[node name="ScreenManager" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_jrfnf")
+PackedScreens = Array[PackedScene]([ExtResource("2_jrfnf")])

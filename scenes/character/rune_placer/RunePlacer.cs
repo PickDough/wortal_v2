@@ -31,9 +31,9 @@ public partial class RunePlacer : Node
             return;
         }
 
-        rune.GlobalPosition = RuneSurfaceResolver.ResolveSurface(raycastResult);
-        if (Math.Abs(raycastResult.Normal.Y - 1f) > .001)
-            rune.LookAt(rune.GlobalPosition + raycastResult.Normal);
+        (rune.GlobalPosition, var normal) = RuneSurfaceResolver.ResolveSurface(raycastResult);
+        if (Math.Abs(normal.Y - 1f) > .001)
+            rune.LookAt(rune.GlobalPosition + normal);
         else
             rune.RotationDegrees = new Vector3(90f, 0f, 0f);
 
@@ -41,7 +41,7 @@ public partial class RunePlacer : Node
         if (RuneSurfaceResolver.IsOverlapping(raycastResult, rune!))
         {
             rune.State = new RuneState.Overlapping();
-            rune.Sprite.GlobalPosition = rune.GlobalPosition + raycastResult.Normal * 0.01f;
+            rune.Sprite.GlobalPosition = rune.GlobalPosition + normal * 0.01f;
             return;
         }
 
@@ -66,7 +66,7 @@ public partial class RunePlacer : Node
             rune = null;
         }
 
-        if (@event.IsActionPressed("action_cancel") && rune != null)
+        if (@event.IsActionPressed("cancel") && rune != null)
         {
             rune.QueueFree();
             rune = null;
@@ -81,8 +81,14 @@ public partial class RunePlacer : Node
             return;
 
         var placedRune = rune!.Duplicate() as Rune;
-        raycastResult.Collider.AddChild(placedRune);
+        var mesh = raycastResult.Collider.FindUnder<MeshInstance3D>();
+        if (raycastResult.Collider is RigidBody3D)
+            mesh!.AddChild(placedRune);
+        else
+            raycastResult.Collider.AddChild(placedRune);
+        
         placedRune!.State = new RuneState.Placed();
         placedRune.GlobalPosition = rune.GlobalPosition;
+        placedRune.GlobalRotation = rune.GlobalRotation;
     }
 }

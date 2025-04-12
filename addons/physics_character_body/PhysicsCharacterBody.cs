@@ -19,34 +19,39 @@ public partial class PhysicsCharacterBody : CharacterBody3D
     [ExportCategory("Physics")] 
     [Export] public float Friction { get; set; } = 60f;
     [Export] public float OnFloorFrictionMultiplayer { get; set; } = 1.2f;
+    [Export] private float gravityMiltiplayer = 1.2f;
 
     [FromOwner(FromSelf = true)] private Camera3D camera;
     
     public Vector3 Forward => -GlobalTransform.Basis.Z;
     
-    public Vector3 Impulse;
-    
+    private Vector3 impulse;
+
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
 
-        GD.Print(Impulse);
-
         if (!IsOnFloor())
         {
-            Velocity += GetGravity() * (float)delta;
-            Impulse = Impulse.MoveToward(Vector3.Zero, Friction * (float)delta);
+            Velocity += GetGravity() * (float)delta * gravityMiltiplayer;
+            impulse = impulse.MoveToward(Vector3.Zero, Friction * (float)delta);
         }
         else
         {
-            Impulse = Impulse.MoveToward(Vector3.Zero, OnFloorFrictionMultiplayer * Friction * (float)delta);
+            impulse = impulse.MoveToward(Vector3.Zero, OnFloorFrictionMultiplayer * Friction * (float)delta);
         }
         
-        Velocity += Impulse;
-        Impulse.Y = 0;
+        Velocity += impulse;
+        impulse.Y = 0;
   
         PushRigidBodies();
         MoveAndSlide();
+    }
+    
+    public void AddImpulse(Vector3 impulse)
+    {
+        this.impulse += impulse;
+        Velocity = Velocity with { Y = 0 };
     }
 
     private void PushRigidBodies()

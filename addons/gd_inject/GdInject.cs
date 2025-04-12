@@ -90,7 +90,6 @@ public partial class GdInject : Node
         var node = parent.FindUnder(t, name);
         if (node != null)
         {
-            GD.Print("Found node ", node.Name, " of type ", t, " for ", c.Name);
             return node;
         }
 

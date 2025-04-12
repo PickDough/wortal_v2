@@ -32,6 +32,11 @@ public partial class WindRunePower : RunePower
         }
     }
 
+    public override bool IsAffectingCharacter(PhysicsCharacterBody characterBody)
+    {
+        return area.OverlapsBody(characterBody);
+    }
+
     private void PushRigidBody(RigidBody3D body)
     {
         var forward = -area.GlobalTransform.Basis.Z;
@@ -41,6 +46,6 @@ public partial class WindRunePower : RunePower
     private void PushCharacterBody(PhysicsCharacterBody body)
     {
         var forward = -area.GlobalTransform.Basis.Z;
-        body.Impulse += forward * characterForce;
+        body.AddImpulse( forward * characterForce);
     }
 }

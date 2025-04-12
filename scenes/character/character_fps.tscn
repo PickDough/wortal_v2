@@ -8,6 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://ddqidhh0rxbas" path="res://scenes/runes/wind/rune_wind.tscn" id="6_kkhms"]
 
 [node name="CharacterFps" instance=ExtResource("1_hx7x4")]
+MouseSensitivity = 0.25
+
+[node name="Camera3D" parent="." index="1"]
+fov = 85.0
 
 [node name="Pickup" type="Node3D" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.63536, -2)
@@ -23,6 +27,7 @@ script = ExtResource("2_wmqfj")
 
 [node name="RuneActivator" type="Node" parent="Runes" index="1"]
 script = ExtResource("5_pcp7y")
+distance = 20.0
 
 [node name="RuneSelector" type="Node" parent="Runes" index="2"]
 script = ExtResource("6_beyrh")

@@ -7,7 +7,7 @@ namespace wortal_v2.scenes.character.rune_placer;
 
 public static class RuneSurfaceResolver
 {
-    internal static Vector3 ResolveSurface(RaycastResult raycastResult)
+    internal static (Vector3 pos, Vector3 normal) ResolveSurface(RaycastResult raycastResult)
     {
         return raycastResult.Collider switch
         {
@@ -22,7 +22,8 @@ public static class RuneSurfaceResolver
         var rootChildren = raycastResult.Collider.GetChildren();
         foreach (var child in rootChildren)
         {
-            if (child is Rune runeChild && runeChild.Position.IsEqualApprox(raycastResult.Collider.ToLocal(rune!.GlobalPosition)))
+            if (child is Rune runeChild &&
+                runeChild.Position.IsEqualApprox(raycastResult.Collider.ToLocal(rune!.GlobalPosition)))
             {
                 return true;
             }
@@ -39,17 +40,17 @@ public static class RuneSurfaceResolver
         return Convert.ToInt32(isX) + Convert.ToInt32(isY) + Convert.ToInt32(isZ) != 3;
     }
 
-    private static Vector3 StaticBodyType(RaycastResult raycastResult, PhysicsBody3D staticBody)
+    private static (Vector3 pos, Vector3 rot) StaticBodyType(RaycastResult raycastResult, PhysicsBody3D staticBody)
     {
         if (IsSurfaceTilted(raycastResult.Normal))
         {
             var node3D = raycastResult.Collider as Node3D;
             node3D = node3D!.GetChild(1) as Node3D;
-            var localTilted = node3D.ToLocal(raycastResult.Point);
+            var localTilted = node3D!.ToLocal(raycastResult.Point);
             localTilted.X = (int)(localTilted.X) + 0.5f * Mathf.Sign(localTilted.X);
             localTilted.Z = (int)(localTilted.Z) + 0.5f * Mathf.Sign(localTilted.Z);
 
-            return node3D.ToGlobal(localTilted);
+            return (node3D.ToGlobal(localTilted), raycastResult.Normal);
         }
 
         var local = staticBody.ToLocal(raycastResult.Point);
@@ -73,41 +74,44 @@ public static class RuneSurfaceResolver
         }
 
 
-        return staticBody.ToGlobal(local);
+        return (staticBody.ToGlobal(local), raycastResult.Normal);
     }
 
     // Just for a box with scale (1, 1, 1)
-    private static Vector3 RigidBodyType(RaycastResult raycastResult, PhysicsBody3D body)
+    private static (Vector3 pos, Vector3 rot) RigidBodyType(RaycastResult raycastResult, PhysicsBody3D body)
     {
         var local = body.ToLocal(raycastResult.Point);
+        var normal = raycastResult.Normal;
 
-        if (Mathf.Abs(raycastResult.Normal.X) > 0.5f)
+        if (Math.Abs(Mathf.Abs(local.X) - 0.5f) < 0.001f)
         {
             local.Y = (int)local.Y;
             local.Z = (int)local.Z;
-            local.X = raycastResult.Normal.X / 2f;
+            local.X = 0.5f * Mathf.Sign(local.X);
+            normal = Mathf.Sign(local.X) * Vector3.Right;
         }
-
-        if (Mathf.Abs(raycastResult.Normal.Y) > 0.5f)
+        else if (Math.Abs(Mathf.Abs(local.Y) - 0.5f) < 0.001f)
         {
             local.X = (int)(local.X);
             local.Z = (int)(local.Z);
-            local.Y = raycastResult.Normal.Y / 2f;
+            local.Y = 0.5f * Mathf.Sign(local.Y);
+            normal = Mathf.Sign(local.Y) * Vector3.Up;
         }
-
-        if (Mathf.Abs(raycastResult.Normal.Z) > 0.5f)
+        else if (Math.Abs(Mathf.Abs(local.Z) - 0.5f) < 0.001f)
         {
             local.X = (int)(local.X);
             local.Y = (int)(local.Y);
-            local.Z = raycastResult.Normal.Z / 2f;
+            local.Z = 0.5f * Mathf.Sign(local.Z);
+            normal = Mathf.Sign(local.Z) * -Vector3.Forward;
         }
 
-        return body.ToGlobal(local);
+        GD.Print($"normal: {normal}");
+        return (body.ToGlobal(local), body.ToGlobal(normal) - body.GlobalPosition);
     }
 
-    private static Vector3 UnsupportedType(RaycastResult raycastResult)
+    private static (Vector3 pos, Vector3 rot) UnsupportedType(RaycastResult raycastResult)
     {
         GD.PrintErr("Unsupported surface for rune placement");
-        return raycastResult.Point;
+        return (raycastResult.Point, raycastResult.Normal);
     }
 }

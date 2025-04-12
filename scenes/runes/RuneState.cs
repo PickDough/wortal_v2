@@ -2,6 +2,16 @@ using Godot;
 
 namespace wortal_v2.scenes.runes;
 
+
+public enum RuneStateEnum
+{
+	Invalid,
+	NotPlaced,
+	Overlapping,
+	Placed,
+	AimedAt
+}
+
 public abstract record RuneState
 {
 	public record Invalid: RuneState

@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dpypu5uka55wp"]
 
 [ext_resource type="Script" uid="uid://boehbfwf77gnl" path="res://scenes/items/Item.cs" id="1_6tr4s"]
-[ext_resource type="Material" uid="uid://ew4rxwinccu7" path="res://assests/textures/prototype/prototype_material_purple.tres" id="2_6g48l"]
+[ext_resource type="Material" uid="uid://d7qm7i0yvhqp" path="res://assests/materials/prototype/prototype_material_light_green.tres" id="2_6g48l"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_skk2h"]
 rough = true

@@ -1,0 +1,76 @@
+[gd_scene load_steps=9 format=3 uid="uid://d14xwwan5jd3k"]
+
+[ext_resource type="PackedScene" uid="uid://dstb2d57gjd8w" path="res://maps/map_02.blend" id="1_dw86y"]
+[ext_resource type="PackedScene" uid="uid://7qf4ip3ahm1y" path="res://scenes/character/character_fps.tscn" id="2_gncvp"]
+[ext_resource type="Script" uid="uid://7lt0ifa48gw0" path="res://scenes/props/volume/DeathVolume.cs" id="3_fluto"]
+[ext_resource type="PackedScene" uid="uid://ddqidhh0rxbas" path="res://scenes/runes/wind/rune_wind.tscn" id="4_5r5jb"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_gncvp"]
+sky_top_color = Color(0.598821, 0.895325, 0.957006, 1)
+sky_horizon_color = Color(0.372192, 0.749315, 0.680107, 1)
+ground_bottom_color = Color(0.133853, 0.315585, 0.27393, 1)
+ground_horizon_color = Color(0.372192, 0.749315, 0.680107, 1)
+
+[sub_resource type="Sky" id="Sky_pwgiu"]
+sky_material = SubResource("ProceduralSkyMaterial_gncvp")
+
+[sub_resource type="Environment" id="Environment_fluto"]
+background_mode = 2
+sky = SubResource("Sky_pwgiu")
+tonemap_mode = 2
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(0.379726, 0.571493, 0.73418, 1)
+fog_sky_affect = 0.4
+fog_height = 15.0
+fog_height_density = 0.5
+volumetric_fog_density = 0.01
+volumetric_fog_emission = Color(0.273873, 0.273873, 0.273873, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gncvp"]
+size = Vector3(53.5, 3, 26)
+
+[node name="Map02" type="Node3D"]
+
+[node name="map_02" parent="." instance=ExtResource("1_dw86y")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+light_energy = 0.5
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_fluto")
+
+[node name="CharacterFps" parent="." instance=ExtResource("2_gncvp")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 25, 14.5, 0)
+MouseSensitivity = 0.15
+
+[node name="DeathVolume" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3_fluto")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DeathVolume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.25, 1.5, 0.5)
+shape = SubResource("BoxShape3D_gncvp")
+
+[node name="WindRune" parent="." instance=ExtResource("4_5r5jb")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 16, 16, 0)
+stateEnum = 3
+
+[node name="WindRune2" parent="." instance=ExtResource("4_5r5jb")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 7, 15, -5)
+stateEnum = 3
+
+[node name="WindRune3" parent="." instance=ExtResource("4_5r5jb")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 2, 16, 4)
+stateEnum = 3
+
+[node name="WindRune4" parent="." instance=ExtResource("4_5r5jb")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -12, 13, 0)
+stateEnum = 3
+
+[node name="WindRune5" parent="." instance=ExtResource("4_5r5jb")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -22, 14, -7)
+stateEnum = 3
