@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://ddqidhh0rxbas"]
+[gd_scene load_steps=9 format=3 uid="uid://ddqidhh0rxbas"]
 
 [ext_resource type="PackedScene" uid="uid://rlxiutimjw43" path="res://scenes/runes/rune.tscn" id="1_48bwl"]
+[ext_resource type="Texture2D" uid="uid://c8bh1rupunjmr" path="res://scenes/runes/wind/wind.png" id="2_0u7ep"]
 [ext_resource type="Shader" uid="uid://dj6k65g4bslhf" path="res://scenes/runes/wind/rune_wind.gdshader" id="2_kqwwp"]
 [ext_resource type="Script" uid="uid://c21pf0apn6mna" path="res://scenes/runes/wind/WindRunePower.cs" id="3_gwk64"]
 
@@ -28,7 +29,9 @@ size = Vector3(2.2, 2.2, 8)
 [node name="WindRune" instance=ExtResource("1_48bwl")]
 
 [node name="Sprite3D" parent="." index="2"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, -0.05)
 modulate = Color(0.762254, 0.925172, 0.999403, 1)
+texture = ExtResource("2_0u7ep")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)

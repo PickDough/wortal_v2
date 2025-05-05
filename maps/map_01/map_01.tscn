@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://wvieb05ggn14"]
+[gd_scene load_steps=10 format=3 uid="uid://wvieb05ggn14"]
 
 [ext_resource type="PackedScene" uid="uid://7qf4ip3ahm1y" path="res://scenes/character/character_fps.tscn" id="2_mcea3"]
-[ext_resource type="PackedScene" uid="uid://b7utinrvwc3sm" path="res://maps/blender_map_01.tscn" id="3_buuqm"]
+[ext_resource type="PackedScene" uid="uid://b7utinrvwc3sm" path="res://maps/map_01/blender_map_01.tscn" id="3_buuqm"]
 [ext_resource type="PackedScene" uid="uid://dpypu5uka55wp" path="res://scenes/items/box/box_item.tscn" id="3_pwgiu"]
 [ext_resource type="PackedScene" uid="uid://dhe11v7cd55uj" path="res://scenes/props/door/door.tscn" id="4_buuqm"]
 [ext_resource type="PackedScene" uid="uid://c1a72fddl2bxa" path="res://scenes/props/super_button/super_button.tscn" id="5_jdsek"]
+[ext_resource type="PackedScene" uid="uid://dqilt5w8ly53k" path="res://scenes/props/volume/water/water_volume.tscn" id="6_fgiok"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mcea3"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -46,6 +47,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, -11.5)
 
 [node name="SuperButton" parent="." instance=ExtResource("5_jdsek")]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -5.5, 0, -6.5)
+
+[node name="WaterVolume" parent="." instance=ExtResource("6_fgiok")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, -2.5, 7)
+Size = Vector3(8, 8, 12)
 
 [connection signal="Activate" from="SuperButton" to="Door" method="Activate"]
 [connection signal="Deactivate" from="SuperButton" to="Door" method="Deactivate"]

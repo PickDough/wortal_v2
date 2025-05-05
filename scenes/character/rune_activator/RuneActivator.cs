@@ -17,39 +17,80 @@ public partial class RuneActivator : Node
 
     public override void _Process(double delta)
     {
-        var raycastResult = characterBody.RaycastFromCamera(distance, CollisionLayer.Rune, true, false);
-        if (raycastResult == null)
+        var raycastResult = characterBody.RaycastFromCamera(distance,
+            CollisionLayer.World + CollisionLayer.Item + CollisionLayer.Rune, true, true);
+
+        if (raycastResult == null || !raycastResult.Collider.GetCollisionLayerValue(CollisionLayer.RuneLayer))
         {
-            if (lastRune == null) return;
-            lastRune.State = new RuneState.Placed();
-            lastRune.GlobalPosition += lastRune.Transform.Basis.Z * 0.05f;
-            lastRune = null;
-            crosshair.SelfModulate = Colors.White;
+            HandleNoRaycastResult();
             return;
         }
 
-        var rune = raycastResult.Collider as Rune;
-        if (rune!.State != new RuneState.Placed())
+        if (raycastResult.Collider is not Rune rune)
+            return;
+
+        if (TryGetColor(rune, out var color, out var shouldReturn))
         {
-            if (lastRune == rune)
-            {
-                crosshair.SelfModulate = rune.Power.IsAffectingCharacter(characterBody) ? Colors.Orange : Colors.Green;
-            }
+            crosshair.SelfModulate = color;
+            if (shouldReturn) return;
+        }
+        else
+        {
             return;
         }
 
+        UpdateLastRune(rune);
+        crosshair.SelfModulate = rune.Power.IsAffectingCharacter(characterBody) ? Colors.Orange : Colors.Green;
+    }
 
+    private void HandleNoRaycastResult()
+    {
+        if (lastRune == null) return;
+
+        lastRune.State = new RuneState.Placed();
+        lastRune.GlobalPosition += lastRune.Transform.Basis.Z * 0.05f;
+        lastRune = null;
+        crosshair.SelfModulate = Colors.White;
+    }
+
+    private bool TryGetColor(Rune rune, out Color color, out bool shouldReturn)
+    {
+        shouldReturn = true;
+
+        if (rune.State == new RuneState.OnCooldown())
+        {
+            color = Colors.Gray;
+            return true;
+        }
+
+        if (rune.State == new RuneState.AimedAt() && lastRune == rune)
+        {
+            color = rune.Power.IsAffectingCharacter(characterBody) ? Colors.Orange : Colors.Green;
+            return true;
+        }
+
+        if (rune.State == new RuneState.Placed())
+        {
+            color = Colors.White;
+            shouldReturn = false;
+            return true;
+        }
+
+        color = default;
+        return false;
+    }
+
+    private void UpdateLastRune(Rune rune)
+    {
         if (lastRune != null)
         {
             lastRune.GlobalPosition += lastRune.Transform.Basis.Z * 0.05f;
-            lastRune!.State = new RuneState.Placed();
+            lastRune.State = new RuneState.Placed();
         }
+
         lastRune = rune;
         lastRune.State = new RuneState.AimedAt();
         lastRune.GlobalPosition -= lastRune.Transform.Basis.Z * 0.05f;
-        crosshair.SelfModulate = rune.Power.IsAffectingCharacter(characterBody) ? Colors.Orange : Colors.Green;
-
-        GD.Print("Modulate: " + crosshair.SelfModulate);
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -58,6 +99,7 @@ public partial class RuneActivator : Node
             mouseButtonEvent.ButtonIndex == MouseButton.Left && lastRune != null)
         {
             lastRune.Power?.Invoke();
+            lastRune.State = new RuneState.OnCooldown();
         }
     }
 }

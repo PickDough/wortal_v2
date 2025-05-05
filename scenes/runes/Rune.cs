@@ -5,16 +5,6 @@ using wortal_v2.addons.physics_character_body;
 
 namespace wortal_v2.scenes.runes;
 
-public abstract partial class RunePower : Node
-{
-    abstract public void Invoke();
-    
-    public virtual bool IsAffectingCharacter(PhysicsCharacterBody characterBody)
-    {
-        return false;
-    }
-}
-
 public partial class Rune : Area3D
 {
     [FromOwner(FromSelf = true)] public Sprite3D Sprite { get; private set; } = null!;
@@ -22,6 +12,7 @@ public partial class Rune : Area3D
     [FromOwner(FromSelf = true)] public RunePower Power { get; private set; } = null!;
 
     [Export] private RuneStateEnum stateEnum = RuneStateEnum.Invalid;
+    [Export] public float CooldownTime { get; internal set; } = 1f;
 
     public RuneState State
     {

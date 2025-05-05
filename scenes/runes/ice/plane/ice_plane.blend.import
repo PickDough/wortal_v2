@@ -3,19 +3,19 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bqk5wwkl8tqic"
-path="res://.godot/imported/map_01.blend-e5409d46bccfad16cdbd442fa7758ed5.scn"
+uid="uid://ckvra2crbsksy"
+path="res://.godot/imported/ice_plane.blend-47ed3b92ee615f6e47fffec29e17be2b.scn"
 
 [deps]
 
-source_file="res://maps/map_01.blend"
-dest_files=["res://.godot/imported/map_01.blend-e5409d46bccfad16cdbd442fa7758ed5.scn"]
+source_file="res://scenes/runes/ice/plane/ice_plane.blend"
+dest_files=["res://.godot/imported/ice_plane.blend-47ed3b92ee615f6e47fffec29e17be2b.scn"]
 
 [params]
 
 nodes/root_type=""
-nodes/root_name="BlenderMap01"
-nodes/apply_root_scale=false
+nodes/root_name=""
+nodes/apply_root_scale=true
 nodes/root_scale=1.0
 nodes/import_as_skeleton_bones=false
 nodes/use_node_type_suffixes=true
@@ -33,39 +33,9 @@ animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
 _subresources={
-"materials": {
-"Floor": {
-"use_external/enabled": true,
-"use_external/path": "uid://jdknb1fupnwt"
-},
-"Wall": {
-"use_external/enabled": true,
-"use_external/path": "uid://7vhroa11l2eu"
-}
-},
 "nodes": {
 "PATH:Cube": {
-"generate/physics": true,
-"physics/shape_type": 1
-},
-"PATH:Cube_001": {
-"generate/physics": true,
-"physics/layer": 5,
-"physics/shape_type": 1
-},
-"PATH:Floor": {
-"generate/physics": true,
-"physics/layer": 5
-},
-"PATH:Wall": {
-"generate/physics": true,
-"physics/layer": 5,
-"physics/shape_type": 1
-},
-"PATH:Wall_001": {
-"generate/physics": true,
-"physics/layer": 5,
-"physics/shape_type": 1
+"generate/physics": true
 }
 }
 }

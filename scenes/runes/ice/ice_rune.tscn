@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bf5iussu1wdo2"]
+
+[ext_resource type="PackedScene" uid="uid://uajvehuqgcpn" path="res://scenes/runes/projectile/projectile_rune.tscn" id="1_6qc21"]
+[ext_resource type="PackedScene" uid="uid://cpi6417ycrlal" path="res://scenes/runes/ice/ice_projectile.tscn" id="2_1nd1q"]
+[ext_resource type="Texture2D" uid="uid://c3e7wlsatmsib" path="res://scenes/runes/ice/ice.481x512.png" id="2_njfnm"]
+
+[node name="IceRune" instance=ExtResource("1_6qc21")]
+
+[node name="Sprite3D" parent="." index="2"]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, -0.05)
+texture = ExtResource("2_njfnm")
+
+[node name="RunePower" parent="." index="3"]
+projectileScene = ExtResource("2_1nd1q")
+Velocity = 8.0
+TimeToLive = 3.0

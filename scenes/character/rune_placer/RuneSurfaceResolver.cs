@@ -22,8 +22,11 @@ public static class RuneSurfaceResolver
         var rootChildren = raycastResult.Collider.GetChildren();
         foreach (var child in rootChildren)
         {
+            var other = raycastResult.Collider.ToLocal(rune!.GlobalPosition);
             if (child is Rune runeChild &&
-                runeChild.Position.IsEqualApprox(raycastResult.Collider.ToLocal(rune!.GlobalPosition)))
+                Math.Abs(runeChild.Position.X - other.X) < 0.1 &&
+                Math.Abs(runeChild.Position.Y - other.Y) < 0.1 &&
+                Math.Abs(runeChild.Position.Z - other.Z) < 0.1)
             {
                 return true;
             }
@@ -105,7 +108,6 @@ public static class RuneSurfaceResolver
             normal = Mathf.Sign(local.Z) * -Vector3.Forward;
         }
 
-        GD.Print($"normal: {normal}");
         return (body.ToGlobal(local), body.ToGlobal(normal) - body.GlobalPosition);
     }
 

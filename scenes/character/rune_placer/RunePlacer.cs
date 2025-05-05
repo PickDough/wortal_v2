@@ -32,10 +32,10 @@ public partial class RunePlacer : Node
         }
 
         (rune.GlobalPosition, var normal) = RuneSurfaceResolver.ResolveSurface(raycastResult);
-        if (Math.Abs(normal.Y - 1f) > .001)
+        if (Math.Abs(Math.Abs(normal.Y) - 1f) > .001)
             rune.LookAt(rune.GlobalPosition + normal);
         else
-            rune.RotationDegrees = new Vector3(90f, 0f, 0f);
+            rune.RotationDegrees = new Vector3(Mathf.Sign(normal.Y)*90f, 0f, 0f);
 
         rune.Sprite.GlobalPosition = rune.GlobalPosition;
         if (RuneSurfaceResolver.IsOverlapping(raycastResult, rune!))

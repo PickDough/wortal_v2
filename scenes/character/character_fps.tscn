@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://7qf4ip3ahm1y"]
+[gd_scene load_steps=8 format=3 uid="uid://7qf4ip3ahm1y"]
 
 [ext_resource type="PackedScene" uid="uid://bcunfwxci0bdp" path="res://addons/physics_character_body/pcb_fps.tscn" id="1_hx7x4"]
 [ext_resource type="Script" uid="uid://c1s8sww5cgveg" path="res://scenes/character/rune_placer/RunePlacer.cs" id="2_wmqfj"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cy6oxuqo2dxlu" path="res://scenes/character/rune_activator/RuneActivator.cs" id="5_pcp7y"]
 [ext_resource type="Script" uid="uid://5btwpcgnkt4a" path="res://scenes/character/rune_selector/RuneSelector.cs" id="6_beyrh"]
 [ext_resource type="PackedScene" uid="uid://ddqidhh0rxbas" path="res://scenes/runes/wind/rune_wind.tscn" id="6_kkhms"]
+[ext_resource type="PackedScene" uid="uid://bf5iussu1wdo2" path="res://scenes/runes/ice/ice_rune.tscn" id="7_kkhms"]
 
 [node name="CharacterFps" instance=ExtResource("1_hx7x4")]
 MouseSensitivity = 0.25
@@ -24,6 +25,7 @@ throwForce = 120.0
 
 [node name="RunePlacer" type="Node" parent="Runes" index="0"]
 script = ExtResource("2_wmqfj")
+distance = 10.0
 
 [node name="RuneActivator" type="Node" parent="Runes" index="1"]
 script = ExtResource("5_pcp7y")
@@ -32,3 +34,6 @@ distance = 20.0
 [node name="RuneSelector" type="Node" parent="Runes" index="2"]
 script = ExtResource("6_beyrh")
 Input1 = ExtResource("6_kkhms")
+Input2 = ExtResource("7_kkhms")
+
+[node name="States" type="Node" parent="." index="5"]

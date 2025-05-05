@@ -19,7 +19,7 @@ public partial class PhysicsCharacterBody : CharacterBody3D
     [ExportCategory("Physics")] 
     [Export] public float Friction { get; set; } = 60f;
     [Export] public float OnFloorFrictionMultiplayer { get; set; } = 1.2f;
-    [Export] private float gravityMiltiplayer = 1.2f;
+    [Export] private float gravityMultiplayer = 1.2f;
 
     [FromOwner(FromSelf = true)] private Camera3D camera;
     
@@ -33,7 +33,7 @@ public partial class PhysicsCharacterBody : CharacterBody3D
 
         if (!IsOnFloor())
         {
-            Velocity += GetGravity() * (float)delta * gravityMiltiplayer;
+            Velocity += GetGravity() * (float)delta * gravityMultiplayer;
             impulse = impulse.MoveToward(Vector3.Zero, Friction * (float)delta);
         }
         else

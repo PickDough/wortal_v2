@@ -57,6 +57,16 @@ public abstract record RuneState
 			rune.HighlightMesh.Visible = true;
 		}
 	}
+	public record OnCooldown: RuneState
+	{
+		public override void SetRune(Rune rune)
+		{
+			rune.GetTree().CreateTimer(rune.CooldownTime).Timeout += () =>
+			{
+				rune.State = new Placed();
+			};
+		}
+	}
 
 	public abstract void SetRune(Rune rune);
 

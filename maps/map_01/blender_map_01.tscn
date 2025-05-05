@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7utinrvwc3sm"]
+
+[ext_resource type="PackedScene" uid="uid://bqk5wwkl8tqic" path="res://maps/map_01/map_01.blend" id="1_peuth"]
+
+[node name="BlenderMap01" instance=ExtResource("1_peuth")]
+
+[node name="Cube_001_StaticBody3D_Transform#RayCast3D" type="RayCast3D" parent="." index="0"]
+target_position = Vector3(0, 0, 1)
+
+[node name="Cube_001_StaticBody3D#Transform" type="Node3D" parent="." index="2"]
+transform = Transform3D(-4.6574e-08, 0.597933, 0.801546, 1.2103e-07, -0.801546, 0.597933, 1, 1.24859e-07, -3.50367e-08, -1, 0, -3)

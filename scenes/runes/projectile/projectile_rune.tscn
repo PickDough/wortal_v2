@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://uajvehuqgcpn"]
+
+[ext_resource type="PackedScene" uid="uid://rlxiutimjw43" path="res://scenes/runes/rune.tscn" id="1_pphds"]
+[ext_resource type="Script" uid="uid://co4cwv4pq4okf" path="res://scenes/runes/projectile/ProjectileRunePower.cs" id="2_mdd4r"]
+[ext_resource type="PackedScene" uid="uid://clvh6olf6qmqh" path="res://scenes/runes/projectile/projectile.tscn" id="3_0pn1a"]
+
+[node name="ProjectileRune" instance=ExtResource("1_pphds")]
+
+[node name="RunePower" type="Node" parent="." index="3"]
+script = ExtResource("2_mdd4r")
+projectileScene = ExtResource("3_0pn1a")
+Velocity = 2.0
+TimeToLive = 5.0

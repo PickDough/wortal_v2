@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://d14xwwan5jd3k"]
+[gd_scene load_steps=10 format=3 uid="uid://d14xwwan5jd3k"]
 
-[ext_resource type="PackedScene" uid="uid://dstb2d57gjd8w" path="res://maps/map_02.blend" id="1_dw86y"]
+[ext_resource type="PackedScene" uid="uid://dstb2d57gjd8w" path="res://maps/map_02/map_02.blend" id="1_dw86y"]
 [ext_resource type="PackedScene" uid="uid://7qf4ip3ahm1y" path="res://scenes/character/character_fps.tscn" id="2_gncvp"]
 [ext_resource type="Script" uid="uid://7lt0ifa48gw0" path="res://scenes/props/volume/DeathVolume.cs" id="3_fluto"]
 [ext_resource type="PackedScene" uid="uid://ddqidhh0rxbas" path="res://scenes/runes/wind/rune_wind.tscn" id="4_5r5jb"]
+[ext_resource type="PackedScene" uid="uid://dqilt5w8ly53k" path="res://scenes/props/volume/water/water_volume.tscn" id="5_tscid"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_gncvp"]
 sky_top_color = Color(0.598821, 0.895325, 0.957006, 1)
@@ -21,14 +22,14 @@ tonemap_mode = 2
 glow_enabled = true
 fog_enabled = true
 fog_light_color = Color(0.379726, 0.571493, 0.73418, 1)
-fog_sky_affect = 0.4
-fog_height = 15.0
+fog_density = 0.03
+fog_height = 1.0
 fog_height_density = 0.5
 volumetric_fog_density = 0.01
 volumetric_fog_emission = Color(0.273873, 0.273873, 0.273873, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gncvp"]
-size = Vector3(53.5, 3, 26)
+size = Vector3(92, 3, 43)
 
 [node name="Map02" type="Node3D"]
 
@@ -52,25 +53,31 @@ collision_mask = 2
 script = ExtResource("3_fluto")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DeathVolume"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.25, 1.5, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.5, 0.5)
 shape = SubResource("BoxShape3D_gncvp")
 
-[node name="WindRune" parent="." instance=ExtResource("4_5r5jb")]
+[node name="Runes" type="Node3D" parent="."]
+
+[node name="WindRune" parent="Runes" instance=ExtResource("4_5r5jb")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 16, 16, 0)
 stateEnum = 3
 
-[node name="WindRune2" parent="." instance=ExtResource("4_5r5jb")]
+[node name="WindRune2" parent="Runes" instance=ExtResource("4_5r5jb")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 7, 15, -5)
 stateEnum = 3
 
-[node name="WindRune3" parent="." instance=ExtResource("4_5r5jb")]
+[node name="WindRune3" parent="Runes" instance=ExtResource("4_5r5jb")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 2, 16, 4)
 stateEnum = 3
 
-[node name="WindRune4" parent="." instance=ExtResource("4_5r5jb")]
+[node name="WindRune4" parent="Runes" instance=ExtResource("4_5r5jb")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -12, 13, 0)
 stateEnum = 3
 
-[node name="WindRune5" parent="." instance=ExtResource("4_5r5jb")]
+[node name="WindRune5" parent="Runes" instance=ExtResource("4_5r5jb")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -22, 14, -7)
 stateEnum = 3
+
+[node name="WaterVolume" parent="." instance=ExtResource("5_tscid")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, -0.5, 0)
+Size = Vector3(200, 3, 200)

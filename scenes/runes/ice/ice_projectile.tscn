@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://cpi6417ycrlal"]
+
+[ext_resource type="PackedScene" uid="uid://clvh6olf6qmqh" path="res://scenes/runes/projectile/projectile.tscn" id="1_3xidv"]
+[ext_resource type="Script" uid="uid://d45bh04pcnj1" path="res://scenes/runes/ice/IceProjectile.cs" id="2_t8hh4"]
+[ext_resource type="PackedScene" uid="uid://b3txgd72v84tu" path="res://scenes/runes/ice/plane/ice_plane.tscn" id="3_jrlbp"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3xidv"]
+albedo_color = Color(0.536667, 0.829102, 0.968893, 1)
+metallic = 0.1
+metallic_specular = 1.0
+roughness = 0.2
+
+[sub_resource type="SphereMesh" id="SphereMesh_t8hh4"]
+material = SubResource("StandardMaterial3D_3xidv")
+radius = 0.25
+height = 0.5
+
+[node name="IceProjectile" instance=ExtResource("1_3xidv")]
+collision_mask = 35
+script = ExtResource("2_t8hh4")
+icePlaneScene = ExtResource("3_jrlbp")
+
+[node name="MeshInstance3D" parent="." index="1"]
+mesh = SubResource("SphereMesh_t8hh4")
