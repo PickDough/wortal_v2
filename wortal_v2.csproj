@@ -6,6 +6,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include=".godot\img.png" />
+    <Content Include="img.png" />
   </ItemGroup>
 </Project>
